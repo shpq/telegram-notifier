@@ -1,6 +1,7 @@
 # Telegram Notifier for Deep Learning
 This is a simple script to send notifications to a Telegram group when a training process is finished. It is useful when you are training a model on a remote server and you want to be notified.
 
+
 Example of usage:
 ```python
 from telegram_notifier import bot, Store
@@ -8,10 +9,12 @@ from tqdm import tqdm
 
 
 st = Store()
+
+bot.set_creds(token, chat_id)
 # values to send to the telegram bot
-log_values = ["loss", "lm_loss"]
+log_values = ["loss"]
 # values to save as model checkpoints
-save_values = ["loss", "lm_loss"]
+save_values = ["loss"]
 
 modes = ["train", "valid"]
 ...
@@ -28,7 +31,7 @@ for epoch in range(epochs):
             # do something
             # ...
             # save the values
-            outputs = model(inputs, labels=labels)
+            outputs = model(inputs)
             loss = outputs[0]
             loss = st.add_value(loss)
             pbar.set_description(st.training_description)
